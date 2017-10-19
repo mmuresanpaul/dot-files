@@ -1,0 +1,269 @@
+# ###############################i3 config####################################
+# ######## www.github.com/mmuresanpaul http://i3wm.org/docs/userguide.html ###
+
+# INDEX
+# 1. VARIABLES
+# 2. BINDINGS
+# 3. EXECUTABLES
+# 4. THEME & BAR
+
+
+# ############ 1.VARIABLES ##################
+#
+set $bg-color           #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color #E53935
+
+set $w1 "1  "
+set $w2 "2  "
+set $w3 "3  "
+set $w4 "4  "
+set $w5 "5  "
+set $w6 "6  "
+set $w7 "7  "
+set $w8 "8  "
+set $w9 "9  "
+set $w10 "10  "
+
+
+############ 2. BINDINGS ############
+
+set $mod Mod1
+font pango:roboto 10 
+# font used for title bar. also used for bar unless another one is specified
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+# floating_modifier $mod
+bindsym $mod+Return exec terminator 
+
+# kill focused window
+bindsym $mod+q kill 
+
+bindsym $mod+space exec dmenu_run -sb "$inactive-bg-color" -sf "$text-color" -nb "$bg-color" -b -fn "Roboto 10"  # start dmenu (a program launcher)
+
+#bindsym $mod+space exec rofi -show run -lines 3 -eh 2 -width 100 -padding 80 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Roboto 18"
+
+# lock
+# bindsym $mod+Shift+x exec i3lock --color 475263
+
+
+bindsym $mod+Shift+c reload # reload the configuration file
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+# bindsym $mod+Shift+e exec "i3-nagbar -t error -m 'Logout?' -b 'Yes' 'i3-msg exit'"
+
+# bindsym $mod+e exec "i3-nagbar -t warning -m 'Edit system files' -b 'config' 'exec gnome-terminal -e vi ~/.config/i3/config' -b 'i3blocks' 'exec gnome-terminal -e vi .config/i3/i3blocks.conf'"
+
+set $Locker i3lock --color 475263 && sleep 1
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown, (w) sound, (q) video
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym w exec --no-startup-id pavucontrol, mode "default"
+    bindsym q exec --no-startup-id arandr, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+e mode "$mode_system"
+
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+z split h
+# split in vertical orientation
+bindsym $mod+x split v
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+
+# Pulse Audio controls
+ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0  +5%
+ # increase sound volume
+ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0  -5%
+ # decrease sound volume
+ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+ # mute sound
+
+# Screen brightness controls
+#bindsym XF86KbdBrightnessDown exec light -U 5
+#bindsym XF86KbdBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# Keyboard brightness controls
+bindsym XF86KbdBrightnessUp exec ~/.config/i3/kbdbacklight.sh up
+bindsym XF86KbdBrightnessDown exec ~/.config/i3/kbdbacklight.sh down
+
+# Media player controls
+ bindsym XF86AudioPlay exec playerctl play-pause
+ bindsym XF86AudioPause exec playerctl play-pause
+ bindsym XF86AudioNext exec playerctl next
+ bindsym XF86AudioPrev exec playerctl previous
+
+# change container layout (stacked, tabbed, toggle split)
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+# bindsym $mod+Shift+d floating toggle
+
+# change focus between tiling / floating windows
+# bindsym $mod+d focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+# focus the child container
+# bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace $w1
+bindsym $mod+2 workspace $w2
+bindsym $mod+3 workspace $w3
+bindsym $mod+4 workspace $w4
+bindsym $mod+5 workspace $w5
+bindsym $mod+6 workspace $w6
+bindsym $mod+7 workspace $w7
+bindsym $mod+8 workspace $w8
+bindsym $mod+9 workspace $w9
+bindsym $mod+0 workspace $w10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $w1
+bindsym $mod+Shift+2 move container to workspace $w2
+bindsym $mod+Shift+3 move container to workspace $w3
+bindsym $mod+Shift+4 move container to workspace $w4
+bindsym $mod+Shift+5 move container to workspace $w5
+bindsym $mod+Shift+6 move container to workspace $w6
+bindsym $mod+Shift+7 move container to workspace $w7
+bindsym $mod+Shift+8 move container to workspace $w8
+bindsym $mod+Shift+9 move container to workspace $w9
+bindsym $mod+Shift+0 move container to workspace $w10
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+bindsym $mod+Shift+f exec firefox
+bindsym $mod+p exec gnome-screenshot
+
+set $displayMode "Set display mode [l]aptop [h]ome"
+
+bindsym $mod+w mode $displayMode
+mode $displayMode {
+    bindsym h exec ~/.screenlayout/home.sh, mode "default"
+    bindsym l exec ~/.screenlayout/laptop.sh, mode "default" 
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+#TODO ############ 3. EXECUTABLES #############
+
+exec /home/paul/messenger-linux-x64/messenger
+exec_always --no-startup-id feh --bg-scale /home/paul/gdrive/Personal/Images/Wallpapers/238683.jpg #add wallpaper
+# exec /home/paul/welcome-back-linux-64/welcome-back #evernote
+exec_always compton -f
+exec firefox
+exec spotify 
+exec --no-startup-id nm-applet
+
+for_window [instance="__nmtui"] floating enable
+bindsym $mod+Shift+w exec --no-startup-id atom --name "__nmtui" -e "nmtui-connect"
+
+# DEFAULT WORKSPACES --------------------------
+assign [class="messenger-nativefier-23a281"] $w9
+assign [class="Firefox"] $w1
+# assign [class="deezer-flow-my-music-nativefier-b12e20"] $w10
+for_window [class="Spotify"] move to workspace $w10
+
+# ############ 4. THEME & BAR #############
+
+# GAPS SETTINGS -------------------------------
+smart_gaps on
+gaps inner 10
+gaps outer 5
+hide_edge_borders both
+
+# for i3gaps to work
+for_window [class="^.*"] border pixel 1
+
+# WINDOW COLOR AND BAR-------------------------
+#                        border              background          text                  indicator
+ client.focused          $bg-color           $bg-color          $text-color            $bg-color
+ client.unfocused        $inactive-bg-color $inactive-bg-color  $inactive-text-color   $inactive-bg-color
+ client.focused_inactive $inactive-bg-color $inactive-bg-color  $inactive-text-color   $inactive-bg-color
+ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color#00ff00     $urgent-bg-color
+
+bar {
+    #i3bar_command ~/.config/polybar/launch.sh
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+    position top
+
+    colors {
+			background $bg-color
+    	separator #757575
+    	#                  border             background         text
+    	focused_workspace  $bg-color          $bg-color          $text-color
+    	inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+    	urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+    }
+}
+
